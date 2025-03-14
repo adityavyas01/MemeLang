@@ -1,0 +1,29 @@
+{
+  "name": "memelang",
+  "displayName": "MemeLang",
+  "description": "Language support for MemeLang programming language",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "memelang",
+        "aliases": ["MemeLang", "memelang"],
+        "extensions": [".memelang"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "memelang",
+        "scopeName": "source.memelang",
+        "path": "./syntaxes/memelang.tmLanguage.json"
+      }
+    ]
+  }
+} 

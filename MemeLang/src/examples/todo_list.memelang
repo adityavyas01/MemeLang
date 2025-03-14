@@ -1,0 +1,117 @@
+hi_bhai
+  // Todo List application in MemeLang
+  
+  // Initialize an empty todo list
+  rakho todos = [];
+  rakho nextId = 1;
+  
+  // Function to add a new todo item
+  rakho function addTodo(description) {
+    rakho todo = {
+      id: nextId,
+      description: description,
+      completed: false
+    };
+    
+    todos[todos.length] = todo;
+    nextId = nextId + 1;
+    
+    return todo;
+  }
+  
+  // Function to toggle a todo's completed status
+  rakho function toggleTodo(id) {
+    rakho i = 0;
+    rakho found = false;
+    
+    jabtak i < todos.length {
+      if (todos[i].id == id) {
+        todos[i].completed = !todos[i].completed;
+        found = true;
+        // break simulation
+        i = todos.length;
+      }
+      
+      i = i + 1;
+    }
+    
+    return found;
+  }
+  
+  // Function to delete a todo
+  rakho function deleteTodo(id) {
+    rakho newTodos = [];
+    rakho i = 0;
+    rakho j = 0;
+    rakho found = false;
+    
+    jabtak i < todos.length {
+      if (todos[i].id != id) {
+        newTodos[j] = todos[i];
+        j = j + 1;
+      } else {
+        found = true;
+      }
+      
+      i = i + 1;
+    }
+    
+    todos = newTodos;
+    return found;
+  }
+  
+  // Function to list all todos
+  rakho function listTodos() {
+    if (todos.length == 0) {
+      chaap "No todos found!";
+      return;
+    }
+    
+    chaap "===== TODO LIST =====";
+    
+    rakho i = 0;
+    jabtak i < todos.length {
+      rakho todo = todos[i];
+      rakho status = todo.completed ? "[X]" : "[ ]";
+      chaap status + " " + todo.id + ": " + todo.description;
+      i = i + 1;
+    }
+    
+    chaap "====================";
+  }
+  
+  // Test the todo list functionality
+  
+  // Add some todos
+  addTodo("Learn MemeLang");
+  addTodo("Write todo list program");
+  addTodo("Test error handling");
+  
+  // Display initial list
+  chaap "Initial Todo List:";
+  listTodos();
+  
+  // Complete some todos
+  chaap "Marking 'Learn MemeLang' as done...";
+  toggleTodo(1);
+  
+  // Display updated list
+  chaap "Updated Todo List:";
+  listTodos();
+  
+  // Delete a todo
+  chaap "Deleting 'Test error handling'...";
+  deleteTodo(3);
+  
+  // Display final list
+  chaap "Final Todo List:";
+  listTodos();
+  
+  // Add another todo
+  chaap "Adding new todo...";
+  addTodo("Share MemeLang with friends");
+  
+  // Display updated list
+  chaap "Updated Todo List:";
+  listTodos();
+bye_bhai 

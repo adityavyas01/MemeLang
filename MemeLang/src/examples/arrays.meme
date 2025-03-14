@@ -1,0 +1,22 @@
+hi_bhai
+rakho numbers = [1, 2, 3, 4, 5];
+rakho fruits = ["apple", "banana", "orange"];
+
+chaap "Numbers array: " + numbers;
+chaap "Fruits array: " + fruits;
+
+rakho sum = 0;
+rakho i = 0;
+jab_tak (i < numbers.length) {
+  sum = sum + numbers[i];
+  i = i + 1;
+}
+
+chaap "Sum of numbers: " + sum;
+
+rakho j = 0;
+jab_tak (j < fruits.length) {
+  chaap "Fruit " + j + ": " + fruits[j];
+  j = j + 1;
+}
+bye_bhai 

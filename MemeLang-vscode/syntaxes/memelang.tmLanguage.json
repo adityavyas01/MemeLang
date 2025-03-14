@@ -1,0 +1,87 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "MemeLang",
+  "patterns": [
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#identifiers"
+    }
+  ],
+  "repository": {
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.memelang",
+          "match": "\\b(if|else|jabtak|return|hi_bhai|bye_bhai)\\b"
+        },
+        {
+          "name": "keyword.other.memelang",
+          "match": "\\b(rakho|chaap|nalla)\\b"
+        },
+        {
+          "name": "constant.language.memelang",
+          "match": "\\b(sahi|galat)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.memelang",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.memelang",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.memelang",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.memelang",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "numbers": {
+      "name": "constant.numeric.memelang",
+      "match": "\\b[0-9]+(\\.([0-9])+)?\\b"
+    },
+    "operators": {
+      "name": "keyword.operator.memelang",
+      "match": "\\+|\\-|\\*|\\/|\\%|\\<|\\>|\\<=|\\>=|==|!=|="
+    },
+    "identifiers": {
+      "patterns": [
+        {
+          "name": "entity.name.function.memelang",
+          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\("
+        },
+        {
+          "name": "variable.other.memelang",
+          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
+        }
+      ]
+    }
+  },
+  "scopeName": "source.memelang"
+} 

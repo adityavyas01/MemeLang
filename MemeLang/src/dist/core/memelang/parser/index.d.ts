@@ -1,0 +1,34 @@
+import { Token } from '../types/token';
+import { ProgramNode } from '../types';
+export declare class Parser {
+    private tokens;
+    private current;
+    constructor(tokens: Token[]);
+    private peek;
+    private previous;
+    private isAtEnd;
+    private advance;
+    private check;
+    private match;
+    private consume;
+    parse(): ProgramNode;
+    private declaration;
+    private variableDeclaration;
+    private functionDeclaration;
+    private statement;
+    private ifStatement;
+    private whileStatement;
+    private returnStatement;
+    private printStatement;
+    private expressionStatement;
+    private expression;
+    private assignment;
+    private logicalOr;
+    private logicalAnd;
+    private equality;
+    private comparison;
+    private term;
+    private factor;
+    private unary;
+    private primary;
+}

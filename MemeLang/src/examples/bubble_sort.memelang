@@ -1,0 +1,38 @@
+hi_bhai
+  // Bubble Sort implementation in MemeLang
+  
+  // Initialize an unsorted array
+  rakho numbers = [64, 34, 25, 12, 22, 11, 90];
+  
+  // Print original array
+  chaap "Original array: " + numbers;
+  
+  // Implement bubble sort
+  rakho function bubbleSort(arr) {
+    rakho n = arr.length;
+    rakho i = 0;
+    
+    jabtak i < n - 1 {
+      rakho j = 0;
+      jabtak j < n - i - 1 {
+        // Compare adjacent elements
+        if (arr[j] > arr[j + 1]) {
+          // Swap arr[j] and arr[j+1]
+          rakho temp = arr[j];
+          arr[j] = arr[j + 1];
+          arr[j + 1] = temp;
+        }
+        j = j + 1;
+      }
+      i = i + 1;
+    }
+    
+    return arr;
+  }
+  
+  // Sort the array
+  rakho sorted = bubbleSort(numbers);
+  
+  // Print sorted array
+  chaap "Sorted array: " + sorted;
+bye_bhai 

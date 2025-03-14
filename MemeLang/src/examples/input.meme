@@ -1,0 +1,18 @@
+hi_bhai
+chaap "Enter your name: ";
+rakho name = input();
+
+chaap "Enter your age: ";
+rakho age = input();
+
+chaap "Hello, " + name + "! You are " + age + " years old.";
+
+chaap "Enter a number: ";
+rakho num = input();
+
+chaap "Enter another number: ";
+rakho num2 = input();
+
+rakho sum = num + num2;
+chaap "Sum: " + sum;
+bye_bhai 

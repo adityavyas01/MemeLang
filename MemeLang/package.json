@@ -1,0 +1,65 @@
+{
+  "name": "memelang",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A fun programming language with Hindi meme-inspired syntax",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "build:interpreter": "tsc",
+    "cli": "ts-node src/runner.ts",
+    "analyze": "ANALYZE=true next build",
+    "postinstall": "next build"
+  },
+  "keywords": [
+    "programming-language",
+    "interpreter",
+    "compiler",
+    "meme",
+    "hindi",
+    "bollywood"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "@monaco-editor/react": "^4.6.0",
+    "next": "14.1.0",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.1",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.19",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/MemeLang.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/MemeLang/issues"
+  },
+  "homepage": "https://github.com/yourusername/MemeLang#readme"
+}
