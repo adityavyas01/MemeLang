@@ -12,8 +12,7 @@ export class Runner {
 
   public static run(code: string): any {
     const lexer = new Lexer(code);
-    const tokens = lexer.tokenize();
-    const parser = new Parser(tokens);
+    const parser = new Parser(lexer);
     const ast = parser.parse();
     const interpreter = new Interpreter();
     return interpreter.interpret(ast);

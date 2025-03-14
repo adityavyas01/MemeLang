@@ -210,7 +210,7 @@ export class Interpreter {
       case '*':
         return left * right;
       case '/':
-        if (right === 0) throw new RuntimeError('Division by zero', node.position?.line || 0, node.position?.column || 0);
+        if (right === 0) throw new RuntimeError('Division by zero', 0, 0);
         return left / right;
       case '%':
         return left % right;
@@ -233,7 +233,7 @@ export class Interpreter {
       case '||':
         return left || right;
       default:
-        throw new RuntimeError(`Unknown operator: ${operator}`, node.position?.line || 0, node.position?.column || 0);
+        throw new RuntimeError(`Unknown operator: ${operator}`, 0, 0);
     }
   }
 
@@ -247,7 +247,7 @@ export class Interpreter {
       case '!':
         return !argument;
       default:
-        throw new RuntimeError(`Unknown unary operator: ${operator}`, node.position?.line || 0, node.position?.column || 0);
+        throw new RuntimeError(`Unknown unary operator: ${operator}`, 0, 0);
     }
   }
 
@@ -259,7 +259,7 @@ export class Interpreter {
     const name = node.name;
     const variable = this.lookupVariable(name);
     if (!variable) {
-      throw new RuntimeError(`Variable ${name} is not defined`, node.position?.line || 0, node.position?.column || 0);
+      throw new RuntimeError(`Variable ${name} is not defined`, 0, 0);
     }
     return variable.value;
   }
@@ -335,7 +335,7 @@ export class Interpreter {
       return returnValue;
     }
     
-    throw new RuntimeError(`Cannot call ${callee} as a function`, node.position?.line || 0, node.position?.column || 0);
+    throw new RuntimeError(`Cannot call ${callee} as a function`, 0, 0);
   }
 
   private interpretPrintStatement(node: PrintStatementNode): any {
@@ -370,14 +370,14 @@ export class Interpreter {
       property = node.computed ? this.interpretAST(node.property) : (node.property as any).name;
       
       if (object === null || object === undefined) {
-        throw new RuntimeError(`Cannot set property '${property}' of ${object}`, node.position?.line || 0, node.position?.column || 0);
+        throw new RuntimeError(`Cannot set property '${property}' of ${object}`, 0, 0);
       }
       
       const value = this.interpretAST(node.value);
       object[property] = value;
       return value;
     } else {
-      throw new RuntimeError('Invalid assignment target', node.position?.line || 0, node.position?.column || 0);
+      throw new RuntimeError('Invalid assignment target', 0, 0);
     }
   }
 
@@ -420,7 +420,7 @@ export class Interpreter {
       return object[property];
     }
     if (node.property.type !== 'Identifier') {
-      throw new RuntimeError('Property must be an identifier', node.position?.line || 0, node.position?.column || 0);
+      throw new RuntimeError('Property must be an identifier', 0, 0);
     }
     return object[node.property.name];
   }
