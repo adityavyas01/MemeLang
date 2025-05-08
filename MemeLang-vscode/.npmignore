@@ -1,0 +1,10 @@
+.git
+.github
+.vscode
+.vscode-test
+node_modules
+*.vsix
+.gitignore
+.npmrc
+*.log
+*.tgz 

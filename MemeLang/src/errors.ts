@@ -1,3 +1,5 @@
+import { enhanceErrorMessage } from './custom-error-messages';
+
 export class CompileError extends Error {
   constructor(
     message: string,
@@ -10,10 +12,7 @@ export class CompileError extends Error {
   }
 
   toString(): string {
-    if (this.line !== undefined && this.column !== undefined) {
-      return `${this.name}: ${this.message} at line ${this.line}, column ${this.column}`;
-    }
-    return `${this.name}: ${this.message}`;
+    return enhanceErrorMessage(this);
   }
 }
 
@@ -29,10 +28,7 @@ export class RuntimeError extends Error {
   }
 
   toString(): string {
-    if (this.line !== undefined && this.column !== undefined) {
-      return `${this.name}: ${this.message} at line ${this.line}, column ${this.column}`;
-    }
-    return `${this.name}: ${this.message}`;
+    return enhanceErrorMessage(this);
   }
 }
 
@@ -50,6 +46,10 @@ export class TypeError extends Error {
     if (line !== undefined) this.line = line;
     if (column !== undefined) this.column = column;
   }
+  
+  toString(): string {
+    return enhanceErrorMessage(this);
+  }
 }
 
 export class SyntaxError extends Error {
@@ -65,6 +65,10 @@ export class SyntaxError extends Error {
     // Ensure line and column are accessible
     if (line !== undefined) this.line = line;
     if (column !== undefined) this.column = column;
+  }
+  
+  toString(): string {
+    return enhanceErrorMessage(this);
   }
 }
 

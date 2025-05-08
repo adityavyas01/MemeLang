@@ -8,6 +8,9 @@ This extension provides language support for the MemeLang programming language.
 - Bracket matching and auto-closing pairs
 - Code folding support
 - Comment toggling
+- Full support for OOP keywords and features
+- Import/Export statement highlighting
+- Support for `.ml` file extension
 
 ## Installation
 
@@ -35,20 +38,69 @@ This extension provides language support for the MemeLang programming language.
 
 ### Variable Declaration
 - `rakho` - Variable declaration (let)
+- `pakka` - Constant declaration (const)
 
 ### Control Flow
-- `if` - Conditional statement
-- `else` - Alternative branch for conditional
+- `agar` - If statement
+- `warna` - Else statement
 - `jabtak` - While loop
+- `bas_karo` - Break statement
+- `agla_dekho` - Continue statement
 
 ### Functions
-- `return` - Return statement
+- `kaam` - Function declaration
+- `wapas` - Return statement
+
+### OOP Features
+- `class` - Class declaration
+- `extends` - Inheritance
+- `constructor` - Constructor method
+- `this` - Current instance
+- `super` - Parent class reference
+- `new` - Create object instance
+- `public` - Public access modifier
+- `private` - Private access modifier
+- `protected` - Protected access modifier
+- `static` - Static method/property
+
+### Import/Export
+- `import` - Import declaration
+- `export` - Export declaration
+- `from` - Import source
+- `default` - Default export
 
 ### Others
 - `chaap` - Print statement
-- `nalla` - Null value
+- `kuch_nahi` - Null value
 - `sahi` - True value
 - `galat` - False value
+- `aur` - Logical AND
+- `ya` - Logical OR
+- `nahi` - Logical NOT
+
+## Example
+
+```
+hi_bhai
+  // Define a Person class
+  class Person {
+    // Constructor
+    constructor(name, age) {
+      this.name = name;
+      this.age = age;
+    }
+    
+    // Method to greet
+    namaste() {
+      chaap("Namaste, my name is " + this.name + " and I am " + this.age + " years old.");
+    }
+  }
+  
+  // Create a Person instance
+  rakho rahul = new Person("Rahul", 25);
+  rahul.namaste();
+bye_bhai
+```
 
 ## License
 

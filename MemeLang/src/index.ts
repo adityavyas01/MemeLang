@@ -1,53 +1,34 @@
 import { Interpreter } from './interpreter';
-import { enhanceErrorMessage } from './custom-error-messages';
+import { Lexer } from './lexer';
+import { Parser } from './parser';
+import { ProgramNode } from './types';
 
-export function execute(code: string): string[] {
-  try {
-    const interpreter = new Interpreter();
-    return interpreter.interpret(code);
-  } catch (error) {
-    console.error(error);
-    
-    // Use our custom error enhancement for more fun messaging
-    if (error instanceof Error) {
-      return [`${enhanceErrorMessage(error)}`];
-    } else {
-      return [`Error: ${String(error)}`];
-    }
-  }
+export async function interpret(code: string): Promise<any[]> {
+  const interpreter = new Interpreter();
+  console.log("Interpreter created");
+  return await interpreter.interpret(code);
 }
 
-// Only export REPL function in Node.js environment
-if (typeof window === 'undefined') {
-  // @ts-ignore - This is intentionally ignored as it's only used in Node.js
-  exports.executeRepl = async function() {
-    const interpreter = new Interpreter();
-    const readline = require('readline').createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
-
-    const prompt = () => {
-      readline.question('> ', (input: string) => {
-        if (input.trim().toLowerCase() === 'exit') {
-          readline.close();
-          return;
-        }
-        try {
-          const result = interpreter.interpret(input);
-          console.log(result.join('\n'));
-        } catch (error) {
-          // Use our custom error enhancement for more fun messaging in REPL too
-          if (error instanceof Error) {
-            console.error(enhanceErrorMessage(error));
-          } else {
-            console.error(`Error: ${String(error)}`);
-          }
-        }
-        prompt();
-      });
-    };
-
-    prompt();
-  };
+// Entry point for command line usage
+if (require.main === module) {
+  const fs = require('fs');
+  const path = require('path');
+  
+  const filePath = process.argv[2];
+  if (!filePath) {
+    console.error('Please provide a file path');
+    process.exit(1);
+  }
+  
+  const code = fs.readFileSync(filePath, 'utf8');
+  interpret(code).then(results => {
+    if (Array.isArray(results)) {
+      console.log(results.map(String).join('\n'));
+    } else {
+      console.log(results);
+    }
+  }).catch(error => {
+    console.error('Error:', error);
+    process.exit(1);
+  });
 } 

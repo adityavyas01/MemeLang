@@ -1,3 +1,6 @@
+import { Interpreter } from './interpreter';
+import { RuntimeError } from './errors';
+
 // AST Node types
 export type ASTNode = 
   | ProgramNode 
@@ -18,7 +21,15 @@ export type ASTNode =
   | GroupingExpressionNode
   | ArrayExpressionNode
   | MemberExpressionNode
-  | EmptyStatementNode;
+  | EmptyStatementNode
+  | ClassDeclarationNode
+  | MethodDefinitionNode
+  | ThisExpressionNode
+  | NewExpressionNode
+  | SuperExpressionNode
+  | ImportDeclarationNode
+  | ExportDeclarationNode
+  | { type: 'EmptyStatement' };
 
 export interface BaseNode {
   type: string;
@@ -82,6 +93,7 @@ export interface LiteralNode extends BaseNode {
 export interface IdentifierNode {
   type: 'Identifier';
   name: string;
+  token: Token;
 }
 
 export interface CallExpressionNode {
@@ -90,9 +102,11 @@ export interface CallExpressionNode {
   arguments: ASTNode[];
 }
 
-export interface PrintStatementNode {
+export interface PrintStatementNode extends BaseNode {
   type: 'PrintStatement';
-  argument: ASTNode;
+  expressions: ASTNode[];
+  line: number;
+  column: number;
 }
 
 export interface ReturnNode extends BaseNode {
@@ -102,11 +116,9 @@ export interface ReturnNode extends BaseNode {
 
 export interface AssignmentExpressionNode {
   type: 'AssignmentExpression';
-  name?: string;
-  value: ASTNode;
-  object?: ASTNode;
-  property?: ASTNode;
-  computed?: boolean;
+  left: IdentifierNode | MemberExpressionNode;
+  right: ASTNode;
+  operator: string;
 }
 
 export interface BlockStatementNode {
@@ -136,16 +148,77 @@ export interface EmptyStatementNode {
 }
 
 // Environment type for interpreter
-export interface Environment {
-  parent: Environment | null;
-  variables: Map<string, { value: any; isConstant: boolean }>;
-  functions: Map<string, FunctionDeclaration>;
+export interface FunctionDeclaration {
+  type: 'FunctionDeclaration';
+  name: string;
+  parameters: string[];
+  body: ASTNode[];
+  environment?: Environment;
 }
 
-export interface FunctionDeclaration {
-  parameters: string[];
-  body: ASTNode;
-  environment: Environment;
+export interface Environment {
+  variables: Map<string, { value: any, isConstant: boolean }>;
+  exports: Map<string, any>;
+  functions: Map<string, Function>;
+  parent?: Environment;
+  interpreter?: Interpreter;
+}
+
+export class Environment {
+  variables: Map<string, { value: any, isConstant: boolean }>;
+  exports: Map<string, any>;
+  functions: Map<string, Function>;
+  parent?: Environment;
+  interpreter?: Interpreter;
+
+  constructor(parent?: Environment) {
+    this.variables = new Map();
+    this.exports = new Map();
+    this.functions = new Map();
+    this.parent = parent;
+  }
+
+  define(name: string, value: any, isConstant: boolean = false): void {
+    this.variables.set(name, { value, isConstant });
+  }
+
+  defineFunction(name: string, func: Function): void {
+    this.functions.set(name, func);
+  }
+
+  get(name: string): { value: any, isConstant: boolean } | undefined {
+    const value = this.variables.get(name);
+    if (value !== undefined) {
+      return value;
+    }
+    if (this.parent) {
+      return this.parent.get(name);
+    }
+    return undefined;
+  }
+
+  getFunction(name: string): Function | undefined {
+    const func = this.functions.get(name);
+    if (func !== undefined) {
+      return func;
+    }
+    if (this.parent) {
+      return this.parent.getFunction(name);
+    }
+    return undefined;
+  }
+
+  set(name: string, value: any): void {
+    const existing = this.get(name);
+    if (existing && existing.isConstant) {
+      throw new RuntimeError(`Cannot reassign constant: ${name}`);
+    }
+    this.variables.set(name, { value, isConstant: false });
+  }
+
+  getParent(): Environment | undefined {
+    return this.parent;
+  }
 }
 
 export interface Position {
@@ -157,8 +230,10 @@ export interface Token {
   type: TokenType;
   lexeme: string;
   literal: any;
-  value: any;
-  position: Position;
+  value?: any;
+  position?: Position;
+  line: number;
+  toString(): string;
 }
 
 export enum TokenType {
@@ -181,6 +256,21 @@ export enum TokenType {
   AND = 'AND',
   OR = 'OR',
   NOT = 'NOT',
+  // OOP keywords
+  CLASS = 'CLASS',
+  EXTENDS = 'EXTENDS',
+  PRIVATE = 'PRIVATE',
+  PUBLIC = 'PUBLIC',
+  PROTECTED = 'PROTECTED',
+  STATIC = 'STATIC',
+  CONSTRUCTOR = 'CONSTRUCTOR',
+  THIS = 'THIS',
+  SUPER = 'SUPER',
+  NEW = 'NEW',
+  IMPORT = 'IMPORT',
+  EXPORT = 'EXPORT',
+  FROM = 'FROM',
+  DEFAULT = 'DEFAULT',
 
   // Single-character tokens
   LEFT_PAREN = 'LEFT_PAREN',
@@ -201,5 +291,78 @@ export enum TokenType {
   NUMBER = 'NUMBER',
 
   // End of file
-  EOF = 'EOF'
+  EOF = 'EOF',
+
+  // New additions
+  NEWLINE = 'NEWLINE',
+  WHITESPACE = 'WHITESPACE'
+}
+
+// New node types for OOP
+export interface ClassDeclarationNode {
+  type: 'ClassDeclaration';
+  name: string;
+  superClass?: string;
+  methods: Array<{
+    name: string;
+    body: FunctionDeclaration;
+    access?: 'public' | 'private' | 'protected';
+  }>;
+}
+
+export interface MethodDefinitionNode {
+  type: 'MethodDefinition';
+  key: string;
+  name?: string;  // Additional field for compatibility
+  value: FunctionDeclarationNode;
+  params?: string[];  // Additional field for compatibility
+  body?: ASTNode | ASTNode[];  // Additional field for compatibility
+  kind: 'constructor' | 'method' | 'get' | 'set';
+  static: boolean;
+  access: 'public' | 'private' | 'protected';
+}
+
+export interface ThisExpressionNode {
+  type: 'ThisExpression';
+}
+
+export interface NewExpressionNode {
+  type: 'NewExpression';
+  callee: ASTNode;
+  arguments: ASTNode[];
+}
+
+export interface SuperExpressionNode {
+  type: 'SuperExpression';
+}
+
+export interface ImportSpecifier {
+  type: 'ImportSpecifier';
+  local: { name: string };
+  exported: { name: string };
+}
+
+export interface ExportSpecifier {
+  type: 'ExportSpecifier';
+  local: { name: string };
+  exported: { name: string };
+}
+
+export interface ImportDeclarationNode {
+  type: 'ImportDeclaration';
+  source: { value: string };
+  specifiers: ImportSpecifier[];
+}
+
+export interface ExportDeclarationNode {
+  type: 'ExportDeclaration';
+  declaration?: VariableDeclarationNode | FunctionDeclarationNode | ClassDeclarationNode;
+  specifiers?: ExportSpecifier[];
+}
+
+export interface MethodDefinition {
+  func: Function;  // Simplify to just Function since that's all we need
+  static: boolean;
+  access: 'public' | 'private' | 'protected';
+  isConstructor?: boolean;
 } 

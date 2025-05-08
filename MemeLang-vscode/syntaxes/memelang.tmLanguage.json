@@ -1,6 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "MemeLang",
+  "scopeName": "source.memelang",
+  "fileTypes": ["ml"],
   "patterns": [
     {
       "include": "#keywords"
@@ -26,26 +28,53 @@
       "patterns": [
         {
           "name": "keyword.control.memelang",
-          "match": "\\b(if|else|jabtak|return|hi_bhai|bye_bhai)\\b"
+          "match": "\\b(hi_bhai|bye_bhai|agar|warna|jabtak|wapas|bas_karo|agla_dekho)\\b"
         },
         {
-          "name": "keyword.other.memelang",
-          "match": "\\b(rakho|chaap|nalla)\\b"
+          "name": "keyword.declaration.memelang",
+          "match": "\\b(rakho|pakka|kaam)\\b"
+        },
+        {
+          "name": "keyword.operator.logical.memelang",
+          "match": "\\b(aur|ya|nahi)\\b"
         },
         {
           "name": "constant.language.memelang",
-          "match": "\\b(sahi|galat)\\b"
+          "match": "\\b(sahi|galat|kuch_nahi)\\b"
+        },
+        {
+          "name": "support.function.memelang",
+          "match": "\\b(chaap)\\b"
+        },
+        {
+          "name": "keyword.other.memelang",
+          "match": "\\b(class|extends|private|public|protected|static|constructor|this|super|new|import|export|from|default)\\b"
         }
       ]
     },
     "strings": {
-      "name": "string.quoted.double.memelang",
-      "begin": "\"",
-      "end": "\"",
       "patterns": [
         {
-          "name": "constant.character.escape.memelang",
-          "match": "\\\\."
+          "name": "string.quoted.double.memelang",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.memelang",
+              "match": "\\\\."
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.memelang",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.memelang",
+              "match": "\\\\."
+            }
+          ]
         }
       ]
     },
@@ -68,20 +97,11 @@
     },
     "operators": {
       "name": "keyword.operator.memelang",
-      "match": "\\+|\\-|\\*|\\/|\\%|\\<|\\>|\\<=|\\>=|==|!=|="
+      "match": "[+\\-*/=<>!&|%]+"
     },
     "identifiers": {
-      "patterns": [
-        {
-          "name": "entity.name.function.memelang",
-          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\("
-        },
-        {
-          "name": "variable.other.memelang",
-          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
-        }
-      ]
+      "name": "variable.other.memelang",
+      "match": "[a-zA-Z_][a-zA-Z0-9_]*"
     }
-  },
-  "scopeName": "source.memelang"
+  }
 } 

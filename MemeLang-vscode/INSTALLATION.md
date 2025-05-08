@@ -43,9 +43,9 @@ If you have Node.js and npm installed, you can build a VSIX package:
 
 After installation:
 
-1. Files with the `.memelang` extension will automatically use the MemeLang syntax highlighting.
+1. Files with the `.ml` extension will automatically use the MemeLang syntax highlighting.
 
-2. For existing files without the `.memelang` extension, you can:
+2. For existing files without the `.ml` extension, you can:
    - Click on the language mode indicator in the bottom-right of VS Code
    - Select "MemeLang" from the language selection menu
 

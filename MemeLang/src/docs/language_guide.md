@@ -6,13 +6,15 @@ MemeLang is a fun, interpreted programming language with a simple syntax designe
 
 ## Program Structure
 
-Every MemeLang program starts with `hi_bhai` and ends with `bye_bhai`:
+Every MemeLang program needs to include `hi_bhai` and `bye_bhai` markers:
 
-```
+```js
 hi_bhai
-  // Your code here
+  // Your code goes here
 bye_bhai
 ```
+
+Code before `hi_bhai` or after `bye_bhai` will be ignored by the interpreter. This makes it easier to add comments, metadata, or other content outside the program's main execution block.
 
 ## Comments
 
@@ -165,6 +167,14 @@ The `chaap` keyword is used to print values to the console:
 
 ```
 chaap "Hello, World!";
+```
+
+### Memify
+
+The `memify` function adds a "MEME:" prefix to the input text and prints it to the console:
+
+```
+memify "Hello, World!";  // Prints "MEME: Hello, World!"
 ```
 
 ### Input

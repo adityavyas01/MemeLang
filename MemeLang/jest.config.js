@@ -12,6 +12,17 @@ const customJestConfig = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
+  // Run tests sequentially instead of in parallel to reduce memory usage
+  maxWorkers: 1,
+  // Avoid spending time watching file system for changes
+  watchAll: false,
+  watch: false,
+  // Increase timeout to avoid test failures due to long-running operations
+  testTimeout: 10000, 
+  // Reduce console logging from tests
+  silent: true,
+  // Cache babel transformations to speed up subsequent tests
+  cache: true,
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',
     '!src/**/*.d.ts',

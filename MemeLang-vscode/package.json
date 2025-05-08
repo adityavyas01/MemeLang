@@ -1,20 +1,47 @@
 {
-  "name": "memelang",
+  "name": "memelang-vscode",
   "displayName": "MemeLang",
   "description": "Language support for MemeLang programming language",
   "version": "0.1.0",
+  "publisher": "memelang",
+  "author": "MemeLang Team",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/user/memelang.git"
+  },
+  "license": "MIT",
   "engines": {
     "vscode": "^1.60.0"
   },
   "categories": [
     "Programming Languages"
   ],
+  "keywords": [
+    "memelang",
+    "MemeLang",
+    "syntax",
+    "highlighting",
+    "vscode-extension"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:memelang"
+  ],
+  "scripts": {
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
   "contributes": {
     "languages": [
       {
         "id": "memelang",
-        "aliases": ["MemeLang", "memelang"],
-        "extensions": [".memelang"],
+        "aliases": [
+          "MemeLang",
+          "memelang"
+        ],
+        "extensions": [
+          ".ml"
+        ],
         "configuration": "./language-configuration.json"
       }
     ],
@@ -25,5 +52,12 @@
         "path": "./syntaxes/memelang.tmLanguage.json"
       }
     ]
-  }
-} 
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^2.19.0"
+  },
+  "bugs": {
+    "url": "https://github.com/user/memelang/issues"
+  },
+  "homepage": "https://github.com/user/memelang#readme"
+}
